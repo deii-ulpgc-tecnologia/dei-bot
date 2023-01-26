@@ -28,7 +28,7 @@ graph.add(C, B2)
 graph.add(C, B3)
 
 function App() {
-	const { render } = useAutomata(graph)
+	const { render, trace } = useAutomata(graph)
 
 	return <div className="App">{render()}</div>
 }

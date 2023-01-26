@@ -1,7 +1,7 @@
 import { INode } from "./node"
 
 export interface IGraph {
-	expandNode(A: INode): INode[]
+	expand(A: INode): INode[]
 	start: INode
 	end: INode
 }
@@ -17,7 +17,7 @@ export default class Graph implements IGraph {
 		this.end = end
 	}
 
-	public expandNode(A: INode): INode[] {
+	public expand(A: INode): INode[] {
 		const expanded = this.relationTable.get(A)
 		if (expanded) return expanded
 		return []
@@ -28,7 +28,7 @@ export default class Graph implements IGraph {
 	}
 
 	public render(current: INode, next: (A: INode) => void) {
-		const expanded = this.expandNode(current)
+		const expanded = this.expand(current)
 		return current.render(next, expanded, {})
 	}
 }

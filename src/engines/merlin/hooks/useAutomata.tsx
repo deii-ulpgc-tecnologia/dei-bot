@@ -25,7 +25,7 @@ export default function useAutomata(graph: IGraph) {
 	}
 
 	function render() {
-		return current.render(next, graph.expandNode(current), {})
+		return current.render(next, graph.expand(current), {})
 	}
 
 	return { render, trace }
