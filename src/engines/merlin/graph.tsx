@@ -1,36 +1,34 @@
-import Node from "./node"
+import { INode } from "./node"
 
-export default class Graph {
-	private _end: Node
-	public current: Node
-	private _context: object
-	private relationTable: Map<Node, Node[]>
+export interface IGraph {
+	expandNode(A: INode): INode[]
+	start: INode
+	end: INode
+}
 
-	constructor(start: Node, end: Node) {
-		this.current = start
-		this._end = end
-		this._context = {}
-		this.relationTable = new Map<Node, Node[]>()
+export default class Graph implements IGraph {
+	private relationTable: Map<INode, INode[]>
+	public start: INode
+	public end: INode
+
+	constructor(start: INode, end: INode) {
+		this.relationTable = new Map<INode, INode[]>()
+		this.start = start
+		this.end = end
 	}
 
-	public expandNode(A: Node): Node[] {
+	public expandNode(A: INode): INode[] {
 		const expanded = this.relationTable.get(A)
 		if (expanded) return expanded
 		return []
 	}
 
-	public add(A: Node, B: Node): void {
+	public add(A: INode, B: INode): void {
 		this.relationTable.set(A, [...(this.relationTable.get(A) || []), B])
 	}
 
-	public next(A: Node) {
-		console.log(A)
-		console.log(this.current)
-		this.current = A
-	}
-
-	public render() {
-		const expanded = this.expandNode(this.current)
-		return this.current.render({ next: this.next, expanded, context: this._context })
+	public render(current: INode, next: (A: INode) => void) {
+		const expanded = this.expandNode(current)
+		return current.render(next, expanded, {})
 	}
 }
