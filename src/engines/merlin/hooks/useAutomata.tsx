@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react"
-import Graph, { IGraph } from "../graph"
-import { INode } from "../node"
+import { IGraph, INode } from "../types"
 
-function useTraceback<T extends INode>() {
+function useTraceback<T>() {
 	const [trace, setTrace] = useState<T[]>([])
 
 	function addTrace(element: T) {
@@ -16,16 +15,17 @@ function useTraceback<T extends INode>() {
 }
 
 export default function useAutomata(graph: IGraph) {
-	const { trace, addTrace } = useTraceback()
+	const { trace, addTrace } = useTraceback<React.ReactNode>()
 	const [current, setCurrent] = useState<INode>(graph.start)
+	const [context, setContext] = useState({})
 
-	function next(A: INode) {
-		addTrace(current)
-		setCurrent(A)
+	function next(nextNode: INode, output?: any) {
+		addTrace(current.trace(output))
+		setCurrent(nextNode)
 	}
 
 	function render() {
-		return current.render(next, graph.expand(current), {})
+		return current.render({ next, expanded: graph.expand(current), context })
 	}
 
 	return { render, trace }

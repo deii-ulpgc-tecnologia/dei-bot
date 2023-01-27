@@ -1,10 +1,5 @@
-import { INode } from "./node"
-
-export interface IGraph {
-	expand(A: INode): INode[]
-	start: INode
-	end: INode
-}
+import React from "react"
+import { IGraph, INode } from "../types"
 
 export default class Graph implements IGraph {
 	private relationTable: Map<INode, INode[]>
@@ -25,10 +20,5 @@ export default class Graph implements IGraph {
 
 	public add(A: INode, B: INode): void {
 		this.relationTable.set(A, [...(this.relationTable.get(A) || []), B])
-	}
-
-	public render(current: INode, next: (A: INode) => void) {
-		const expanded = this.expand(current)
-		return current.render(next, expanded, {})
 	}
 }
