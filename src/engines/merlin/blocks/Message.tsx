@@ -2,7 +2,7 @@ import { ReactNode } from "react"
 import { Node } from "../core"
 import { RenderProps } from "../types"
 
-export default class Start extends Node {
+export default class Message extends Node {
 	public message: string
 	constructor(message: string) {
 		super()
@@ -11,6 +11,7 @@ export default class Start extends Node {
 	}
 
 	render(props: RenderProps): ReactNode {
+		if (this.auto === true) props.next(props.expanded[0], this.message)
 		return <></>
 	}
 }

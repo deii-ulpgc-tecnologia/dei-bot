@@ -11,10 +11,9 @@ export class MultiChoice extends Node {
 		this.text_options = text_options
 	}
 
-	component({ next, expanded }: RenderProps): React.ReactNode {
+	component({ next, expanded, context }: RenderProps): React.ReactNode {
 		return (
 			<>
-				<h1>{this._message}</h1>
 				{expanded.map((c, i) => (
 					<button
 						key={i}

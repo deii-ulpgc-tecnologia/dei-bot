@@ -1,18 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { IGraph, INode } from "../types"
-
-function useTraceback<T>() {
-	const [trace, setTrace] = useState<T[]>([])
-
-	function addTrace(element: T) {
-		setTrace((trace) => [...trace, element])
-	}
-
-	return {
-		trace,
-		addTrace,
-	}
-}
+import useTraceback from "./useTraceback"
 
 export default function useAutomata(graph: IGraph) {
 	const { trace, addTrace } = useTraceback<React.ReactNode>()

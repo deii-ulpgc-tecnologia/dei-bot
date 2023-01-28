@@ -3,10 +3,8 @@ import { Node } from "../core"
 import { RenderProps } from "../types"
 
 export default class Start extends Node {
-	public message: string
-	constructor(message: string) {
+	constructor() {
 		super()
-		this.message = message
 		this.auto = true
 	}
 }

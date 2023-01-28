@@ -1,10 +1,8 @@
 import { Node } from "../core"
 
 export default class End extends Node {
-	public message: string
-	constructor(message: string) {
+	constructor() {
 		super()
-		this.message = message
 		this.auto = true
 	}
 }
