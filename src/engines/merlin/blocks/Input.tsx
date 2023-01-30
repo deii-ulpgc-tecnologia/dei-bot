@@ -1,16 +1,10 @@
+import Node from '../core/Node'
 import { RenderProps } from "../types"
 
-export class TextInput extends Node {
-	public message: string
-	constructor(message: string) {
-		super()
-		this.message = message
-	}
-
+export default class Input extends Node {
 	component({ next, expanded }: RenderProps): React.ReactNode {
 		return (
 			<>
-				<h1>{this.message}</h1>
 				<button
 					onClick={() => {
 						next(expanded[0], "Siguiente")
@@ -19,5 +13,9 @@ export class TextInput extends Node {
 				</button>
 			</>
 		)
+	}
+
+	public toJson(): { component: string; conf: {} } {
+		return this._toJson("Input")
 	}
 }

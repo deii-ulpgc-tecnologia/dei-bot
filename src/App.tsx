@@ -1,30 +1,28 @@
 import { useState } from "react"
 import reactLogo from "./assets/react.svg"
 import "./App.css"
-import { useAutomata, useTraceback } from "./engines/merlin/hooks"
-import { Graph } from "./engines/merlin/core"
-import Start from "./engines/merlin/blocks/Start"
-import End from "./engines/merlin/blocks/End"
-import { MultiChoice } from "./engines/merlin/blocks/MultiChoice"
-import Message from "./engines/merlin/blocks/Message"
 
-const init = new Start()
+import { useAutomata } from "merlin/hooks"
+import { Graph } from "merlin/core"
+import {MultiChoice, Message, End, Start} from "merlin/blocks"
 
-const A = new MultiChoice("Elige que quieres?", ["asdf"])
-const B = new MultiChoice("hola", [])
-const C = new MultiChoice("adios", [])
-const D = new Message("terminaste pepe")
-const F = new MultiChoice("perfe", [])
+const init = new Start({})
 
-const end = new End()
+const A = new MultiChoice({text_options: ["hola", "adios", "hello"]})
+const B = new MultiChoice({text_options: ["adsfl", "adfasdf"]})
+const C = new MultiChoice({text_options: ["adsfl", "adfasdf"]})
+const D = new Message({message : "terminaste pepe"})
+const F = new MultiChoice({text_options: ["adsfl", "adfasdf"]})
 
-const graph = new Graph(A, D)
+A.setNext([B, C])
+B.setNext([D])
+C.setNext([D])
+D.setNext([F])
 
-graph.add(A, B)
-graph.add(A, C)
-graph.add(C, D)
-graph.add(B, D)
-graph.add(D, F)
+
+const graph = new Graph(A)
+
+console.log(graph.toJson())
 
 function App() {
 	const { trace, render } = useAutomata(graph)

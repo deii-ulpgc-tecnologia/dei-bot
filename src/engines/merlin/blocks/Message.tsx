@@ -1,17 +1,18 @@
+import { NodeProps } from "../core/Node"
 import { ReactNode } from "react"
 import { Node } from "../core"
 import { RenderProps } from "../types"
 
-export default class Message extends Node {
-	public message: string
-	constructor(message: string) {
-		super()
-		this.message = message
-		this.auto = true
-	}
+interface conf extends NodeProps{
+	message ?: string,
+}
 
+export default class Message extends Node<conf> {
 	render(props: RenderProps): ReactNode {
-		if (this.auto === true) props.next(props.expanded[0], this.message)
+		props.next(props.expanded[0], this.conf.message)
 		return <></>
+	}
+	public toJson(): { component: string; conf: {} } {
+		return this._toJson("Message")
 	}
 }

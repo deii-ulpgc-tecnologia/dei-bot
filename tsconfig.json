@@ -14,7 +14,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+		"baseUrl": ".",
+		"paths": {
+			"merlin/*": ["./src/engines/merlin/*"],
+		}
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

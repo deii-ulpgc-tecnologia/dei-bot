@@ -6,6 +6,11 @@ export default function useAutomata(graph: IGraph) {
 	const { trace, addTrace } = useTraceback<React.ReactNode>()
 	const [current, setCurrent] = useState<INode>(graph.start)
 	const [context, setContext] = useState({})
+	const [error, setError] = useState()
+
+	function addVariable(id : string, value : any) {
+		setContext((context) =>  ({...context, [id] : value}))
+	}
 
 	function next(nextNode: INode, output?: any) {
 		addTrace(current.trace(output))
@@ -13,8 +18,8 @@ export default function useAutomata(graph: IGraph) {
 	}
 
 	function render() {
-		return current.render({ next, expanded: graph.expand(current), context })
+		return current.render({ next, expanded: current.nextNodes, context, addVariable })
 	}
 
-	return { render, trace }
+	return { render, trace, error }
 }

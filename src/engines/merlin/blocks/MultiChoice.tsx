@@ -1,29 +1,29 @@
 import { Node } from "../core"
 import { RenderProps } from "../types"
+import { NodeProps } from "../core/Node"
 
-export class MultiChoice extends Node {
-	private _message: string
-	private text_options: string[]
+interface conf extends NodeProps{
+	text_options : string[]
+}
 
-	constructor(message: string, text_options: string[]) {
-		super()
-		this._message = message
-		this.text_options = text_options
-	}
-
+export default class MultiChoice extends Node<conf> {
 	component({ next, expanded, context }: RenderProps): React.ReactNode {
 		return (
 			<>
 				{expanded.map((c, i) => (
 					<button
-						key={i}
+						key={c.id}
 						onClick={() => {
-							next(c, this.text_options[i] || "Default")
+							next(c, this.conf.text_options[i] || "Default")
 						}}>
-						{this.text_options[i] || "Default"}
+						{this.conf.text_options[i] || "Default"}
 					</button>
 				))}
 			</>
 		)
+	}
+
+	public toJson(): { component: string; conf: conf } {
+		return this._toJson("MultiChoice")
 	}
 }

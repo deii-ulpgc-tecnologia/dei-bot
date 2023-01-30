@@ -1,24 +1,38 @@
 import React from "react"
+import { json } from "stream/consumers"
 import { IGraph, INode } from "../types"
 
 export default class Graph implements IGraph {
-	private relationTable: Map<INode, INode[]>
 	public start: INode
-	public end: INode
 
-	constructor(start: INode, end: INode) {
-		this.relationTable = new Map<INode, INode[]>()
+	constructor(start: INode) {
 		this.start = start
-		this.end = end
 	}
 
-	public expand(A: INode): INode[] {
-		const expanded = this.relationTable.get(A)
-		if (expanded) return expanded
-		return []
+
+	public breathDepthSearch() {
+		let curr : INode | undefined = this.start
+		let fringe : INode[] = []
+		let waiting = [this.start]
+
+
+		while (curr) {
+			curr = waiting.pop()
+			if(curr)
+				fringe = [...fringe, curr]
+			waiting = [...waiting, ...(curr?.nextNodes || [])]
+		}
+
+		return fringe
 	}
 
-	public add(A: INode, B: INode): void {
-		this.relationTable.set(A, [...(this.relationTable.get(A) || []), B])
+	public toJson() {
+		const nodes = this.breathDepthSearch()
+		return nodes.map((x) => x.toJson())
 	}
+
+	public loadJson(A : object) {
+	}
+
+
 }
